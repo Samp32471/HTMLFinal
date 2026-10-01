@@ -1,0 +1,508 @@
+<script>
+  (function(){
+    // =====================================================
+    // EMAILJS CONFIGURATION  ← REPLACE THESE 3 VALUES
+    // =====================================================
+    const EMAILJS_PUBLIC_KEY  = "LXM-ZwYAAhkipRBze";
+    const EMAILJS_SERVICE_ID  = "service_e6ai3kd";
+    const EMAILJS_TEMPLATE_ID = "template_ntfx3cj";
+
+    // Initialize EmailJS
+    emailjs.init(EMAILJS_PUBLIC_KEY);
+
+    // ---------- EXAM DATA : 130 questions (HTML only) ----------
+    const questions = [];
+
+    function addQ(type, text, options = null, correct = null) {
+      questions.push({ type, text, options, correct });
+    }
+
+    // ---- Multiple choice (1–40) ----
+    const mcqData = [
+      { q: "What does HTML stand for?", opts: ["Hyper Text Markup Language", "Home Tool Markup Language", "Hyperlinks and Text Markup Language", "Hyper Tool Markup Language"], ans: 0 },
+      { q: "Who is making the Web standards?", opts: ["Mozilla", "Microsoft", "The World Wide Web Consortium", "Google"], ans: 2 },
+      { q: "Choose the correct HTML element for the largest heading:", opts: ["<h6>", "<head>", "<h1>", "<heading>"], ans: 2 },
+      { q: "What is the correct HTML element for inserting a line break?", opts: ["<break>", "<br>", "<lb>", "<newline>"], ans: 1 },
+      { q: "What is the correct HTML for adding a background color?", opts: ["<background>yellow</background>", "<body style='background-color:yellow;'>", "<body bg='yellow'>", "<body background='yellow'>"], ans: 1 },
+      { q: "Choose the correct HTML element to define important text", opts: ["<i>", "<strong>", "<important>", "<b>"], ans: 1 },
+      { q: "Choose the correct HTML element to define emphasized text", opts: ["<italic>", "<i>", "<em>", "<emphasize>"], ans: 2 },
+      { q: "Which character is used to indicate an end tag?", opts: ["*", "/", "<", "^"], ans: 1 },
+      { q: "How can you open a link in a new tab/browser window?", opts: ["<a href='url' target='_blank'>", "<a href='url' new>", "<a href='url' target='new'>", "<a href='url' target='_new'>"], ans: 0 },
+      { q: "Which of these elements are all <table> elements?", opts: ["<table><tr><tt>", "<thead><body><tr>", "<table><tr><td>", "<table><head><tfoot>"], ans: 2 },
+      { q: "Inline elements are normally displayed without starting a new line.", opts: ["True", "False"], ans: 0, type: "tf" },
+      { q: "How can you make a numbered list?", opts: ["<dl>", "<ol>", "<ul>", "<list>"], ans: 1 },
+      { q: "How can you make a bulleted list?", opts: ["<ol>", "<dl>", "<ul>", "<list>"], ans: 2 },
+      { q: "What is the correct HTML for making a checkbox?", opts: ["<check>", "<input type='check'>", "<checkbox>", "<input type='checkbox'>"], ans: 3 },
+      { q: "What is the correct HTML for making a text input field?", opts: ["<textfield>", "<input type='text'>", "<textinput>", "<input type='textfield'>"], ans: 1 },
+      { q: "What is the correct HTML for making a drop-down list?", opts: ["<list>", "<select>", "<input type='dropdown'>", "<dropdown>"], ans: 1 },
+      { q: "What is the correct HTML for making a text area?", opts: ["<input type='textarea'>", "<textarea>", "<text>", "<input type='textbox'>"], ans: 1 },
+      { q: "What is the correct HTML for inserting an image?", opts: ["<image src='img.gif'>", "<img href='img.gif'>", "<img src='img.gif'>", "<img alt='img.gif'>"], ans: 2 },
+      { q: "What is the correct HTML for inserting a background image?", opts: ["<body background='bg.gif'>", "<body style='background-image:url(bg.gif)'>", "<background img='bg.gif'>", "<body bg='bg.gif'>"], ans: 0 },
+      { q: "Which HTML element is used to specify a footer for a document or section?", opts: ["<bottom>", "<footer>", "<section>", "<foot>"], ans: 1 },
+      { q: "Which HTML element defines navigation links?", opts: ["<navigate>", "<nav>", "<navigation>", "<menu>"], ans: 1 },
+      { q: "In HTML, what does the <title> element do?", opts: ["Defines a title in the browser toolbar", "Defines a title in the page body", "Defines a heading", "Defines a meta title"], ans: 0 },
+      { q: "Which HTML element is used to display a scalar measurement within a known range?", opts: ["<gauge>", "<meter>", "<progress>", "<range>"], ans: 1 },
+      { q: "Which doctype is correct for HTML5?", opts: ["<!DOCTYPE HTML5>", "<!DOCTYPE html>", "<!DOCTYPE html5>", "<!doctype html5>"], ans: 1 },
+      { q: "What is the correct HTML element for playing video files?", opts: ["<media>", "<video>", "<movie>", "<player>"], ans: 1 },
+      { q: "What is the correct HTML element for playing audio files?", opts: ["<sound>", "<audio>", "<mp3>", "<music>"], ans: 1 },
+      { q: "The HTML global attribute 'contenteditable' is used to:", opts: ["Specify whether the content of an element is editable", "Specify a context menu", "Hide the element", "Make text bold"], ans: 0 },
+      { q: "Which element is used to define a client-side script?", opts: ["<script>", "<js>", "<javascript>", "<code>"], ans: 0 },
+      { q: "Which HTML element is used to define a drop-down list?", opts: ["<input>", "<select>", "<list>", "<dropdown>"], ans: 1 },
+      { q: "Which attribute specifies a unique id for an HTML element?", opts: ["class", "id", "name", "key"], ans: 1 },
+      { q: "Which attribute is used to specify a class for an HTML element?", opts: ["id", "style", "class", "name"], ans: 2 },
+      { q: "What does the 'alt' attribute in <img> specify?", opts: ["Alternate text for an image", "Alignment of image", "Link to another page", "Image size"], ans: 0 },
+      { q: "Which element is used to group header content?", opts: ["<header>", "<head>", "<heading>", "<hgroup>"], ans: 0 },
+      { q: "Which element is used to specify a section in a document?", opts: ["<div>", "<section>", "<span>", "<article>"], ans: 1 },
+      { q: "Which element is used to specify independent, self-contained content?", opts: ["<section>", "<article>", "<aside>", "<main>"], ans: 1 },
+      { q: "Which element defines text that should be marked or highlighted?", opts: ["<mark>", "<highlight>", "<strong>", "<em>"], ans: 0 },
+      { q: "What is the correct HTML for creating a hyperlink?", opts: ["<a>http://example.com</a>", "<a href='http://example.com'>Example</a>", "<link>http://example.com</link>", "<hyperlink>"], ans: 1 },
+      { q: "Which input type defines a slider control?", opts: ["range", "slider", "controls", "number"], ans: 0 },
+      { q: "Which input type defines a date picker?", opts: ["date", "datetime", "calendar", "time"], ans: 0 },
+      { q: "Which attribute specifies that an input field must be filled out before submitting?", opts: ["validate", "required", "placeholder", "important"], ans: 1 },
+    ];
+
+    mcqData.forEach((item) => {
+      if (item.type === "tf") {
+        addQ("tf", item.q, null, item.ans);
+      } else {
+        addQ("mcq", item.q, item.opts, item.ans);
+      }
+    });
+
+    // ---- True / False (41–70) ----
+    const tfData = [
+      { q: "The <canvas> element is used to draw graphics via JavaScript.", ans: 0 },
+      { q: "HTML is a programming language.", ans: 1 },
+      { q: "The <aside> element defines content aside from the page content.", ans: 0 },
+      { q: "The <main> element can appear multiple times in a document.", ans: 1 },
+      { q: "The <figure> element is used to mark up a photo.", ans: 0 },
+      { q: "The <figcaption> element provides a caption for a <figure>.", ans: 0 },
+      { q: "HTML5 supports <video> and <audio> without plugins.", ans: 0 },
+      { q: "The <datalist> element specifies a list of pre-defined options.", ans: 0 },
+      { q: "The <output> element represents the result of a calculation.", ans: 0 },
+      { q: "The <progress> element represents a scalar measurement.", ans: 0 },
+      { q: "The <meta> tag is always inside the <body> section.", ans: 1 },
+      { q: "The <link> tag is used to define a hyperlink.", ans: 1 },
+      { q: "The <nav> element is used for navigation links.", ans: 0 },
+      { q: "The <section> element is a generic block container.", ans: 0 },
+      { q: "The <article> element specifies independent content.", ans: 0 },
+      { q: "The <header> element can contain multiple <h1> tags.", ans: 1 },
+      { q: "The <footer> element must be at the bottom of the page.", ans: 1 },
+      { q: "The <address> element defines contact information.", ans: 0 },
+      { q: "The <wbr> element defines a word break opportunity.", ans: 0 },
+      { q: "The <track> element is used with <video> and <audio>.", ans: 0 },
+      { q: "The <source> element can be used inside <video>.", ans: 0 },
+      { q: "The <embed> element defines a container for external content.", ans: 0 },
+      { q: "The <iframe> element defines an inline frame.", ans: 0 },
+      { q: "The <bdi> element isolates bidirectional text.", ans: 0 },
+      { q: "The <bdo> element overrides text direction.", ans: 0 },
+      { q: "The <ruby> element is used for ruby annotations.", ans: 0 },
+      { q: "The <rt> element defines an explanation for ruby.", ans: 0 },
+      { q: "The <rp> element defines what to show if ruby not supported.", ans: 0 },
+      { q: "The <time> element defines a date/time.", ans: 0 },
+      { q: "The <mark> element defines marked/highlighted text.", ans: 0 },
+    ];
+    tfData.forEach(item => addQ("tf", item.q, null, item.ans));
+
+    // ---- Long Answer (71–90) ----
+    const longQ = [
+      "Explain the difference between <div> and <span> with examples.",
+      "Describe the purpose of the <meta> tag and list three attributes.",
+      "What are semantic elements? Give five examples.",
+      "Explain the structure of an HTML table with rowspan and colspan.",
+      "How does the <input> tag work? List five input types.",
+      "What is the difference between <ol> and <ul>? Provide examples.",
+      "Describe the <video> element and its common attributes.",
+      "What are global attributes? Name five and explain.",
+      "Explain the importance of the alt attribute in images.",
+      "How can you embed an SVG directly into HTML?",
+      "What is the role of the <form> element? Name three form attributes.",
+      "Differentiate between GET and POST methods in HTML forms.",
+      "Explain the use of <label> with form controls.",
+      "What is a data-* attribute? Give an example.",
+      "Describe the <picture> element and its use case.",
+      "What is the purpose of the <noscript> tag?",
+      "Explain the <template> element and its benefits.",
+      "How does the <canvas> element work? (No code required)",
+      "What are the new input types in HTML5? List six.",
+      "Describe the <dialog> element and its usage.",
+    ];
+    longQ.forEach(q => addQ("long", q));
+
+    // ---- Essay (91–100) ----
+    const essayQ = [
+      "Discuss the evolution of HTML from HTML4 to HTML5 and its impact on modern web development.",
+      "Explain the importance of accessibility in HTML. Describe ARIA roles and best practices.",
+      "Compare and contrast client-side and server-side form validation with HTML5.",
+      "How does HTML5 enable rich media without plugins? Discuss <video>, <audio>, and <canvas>.",
+      "Describe the role of semantic HTML in SEO and maintainability. Provide examples.",
+      "What are web components? How do custom elements and shadow DOM relate to HTML?",
+      "Discuss responsive design principles in the context of HTML viewport and media queries.",
+      "Explain how HTML forms handle file uploads and the multipart/form-data encoding.",
+      "What security considerations should be taken when writing HTML? (XSS, CSRF, etc.)",
+      "Describe the future of HTML: web components, portals, and beyond.",
+    ];
+    essayQ.forEach(q => addQ("essay", q));
+
+    // ---- Practical coding (101–130) ----
+    const practicalQ = [
+      "Create a simple HTML page with a heading, paragraph, and a link.",
+      "Build an unordered list with three items inside a div.",
+      "Write HTML to create a table with two rows and three columns.",
+      "Create a form with a text input, password input, and submit button.",
+      "Insert an image with alt text and width 200.",
+      "Create a hyperlink that opens in a new tab.",
+      "Build a definition list with two terms and descriptions.",
+      "Create a checkbox and a radio button group in HTML.",
+      "Write HTML for a drop-down list with three options.",
+      "Create a textarea with placeholder 'Enter comments'.",
+      "Add an audio element with controls and a source file.",
+      "Create a video element with controls and poster attribute.",
+      "Build a progress bar with value 70 and max 100.",
+      "Use <meter> to show a value of 0.7 within range 0-1.",
+      "Create a section with a header and footer inside.",
+      "Write HTML for an article with a heading and paragraph.",
+      "Create a navigation bar with three links.",
+      "Use <figure> and <figcaption> to caption an image.",
+      "Build a simple HTML page with <main> and <aside>.",
+      "Create a form with a required email input and a date input.",
+      "Write HTML to embed an iframe with a YouTube video.",
+      "Create a table with a caption and thead/tbody.",
+      "Use <details> and <summary> to create a collapsible section.",
+      "Create a fieldset with a legend and two inputs.",
+      "Write HTML for a select element with multiple selection enabled.",
+      "Create a datalist linked to an input.",
+      "Build a simple HTML page using <header>, <nav>, <main>, <footer>.",
+      "Create a form with a submit button that sends to /submit.",
+      "Write HTML to display a definition list with three terms.",
+      "Create a simple HTML page that uses <mark> and <small>.",
+    ];
+    practicalQ.forEach(q => addQ("practical", q));
+
+    console.log('Total questions:', questions.length);
+
+    // ---------- STATE ----------
+    let currentUser = { fullname: '', course: '', admission: '' };
+    let answers = new Array(questions.length).fill(null).map(() => ({ value: null, text: '' }));
+    let timeLeft = 7200;
+    let timerInterval = null;
+    let examActive = false;
+    let tabSwitchCount = 0;
+    let fullscreenExitCount = 0;
+
+    const loginContainer = document.getElementById('loginContainer');
+    const examContainer = document.getElementById('examContainer');
+    const loginBtn = document.getElementById('loginBtn');
+    const fullnameInput = document.getElementById('fullname');
+    const courseInput = document.getElementById('course');
+    const admissionInput = document.getElementById('admission');
+    const studentInfo = document.getElementById('studentInfo');
+    const timerDisplay = document.getElementById('timerDisplay');
+    const questionsArea = document.getElementById('questionsArea');
+    const progressStatus = document.getElementById('progressStatus');
+    const submitExamBtn = document.getElementById('submitExamBtn');
+    const overlay = document.getElementById('overlay');
+    const overlayMessage = document.getElementById('overlayMessage');
+    const returnBtn = document.getElementById('returnBtn');
+    const antiCheatLog = document.getElementById('antiCheatLog');
+
+    // ---------- RENDER QUESTIONS ----------
+    function renderQuestions() {
+      let html = '';
+      questions.forEach((q, idx) => {
+        const num = idx + 1;
+        const qId = `q${num}`;
+        let typeLabel = '';
+        if (q.type === 'mcq') typeLabel = 'Multiple Choice';
+        else if (q.type === 'tf') typeLabel = 'True / False';
+        else if (q.type === 'long') typeLabel = 'Long Answer';
+        else if (q.type === 'essay') typeLabel = 'Essay';
+        else if (q.type === 'practical') typeLabel = 'Practical (code)';
+
+        html += `<div class="question-card" data-qidx="${idx}" id="card-${qId}">`;
+        html += `<div class="question-title"><span class="q-number">Q${num}</span><span class="q-type">${typeLabel}</span></div>`;
+        html += `<div style="margin-bottom:12px; font-weight:500;">${escapeHtml(q.text)}</div>`;
+
+        if (q.type === 'mcq' && q.options) {
+          html += `<div class="options">`;
+          q.options.forEach((opt, oi) => {
+            const radioName = `q${num}_radio`;
+            html += `<div class="option-item">`;
+            html += `<input type="radio" name="${radioName}" value="${oi}" id="opt_${num}_${oi}" data-qidx="${idx}" data-optidx="${oi}" class="mcq-radio">`;
+            html += `<label for="opt_${num}_${oi}">${escapeHtml(opt)}</label>`;
+            html += `</div>`;
+          });
+          html += `</div>`;
+        } else if (q.type === 'tf') {
+          html += `<div class="truefalse">`;
+          html += `<label><input type="radio" name="tf_${num}" value="true" data-qidx="${idx}" data-tf="0"> True</label>`;
+          html += `<label><input type="radio" name="tf_${num}" value="false" data-qidx="${idx}" data-tf="1"> False</label>`;
+          html += `</div>`;
+        } else if (q.type === 'long' || q.type === 'essay') {
+          html += `<textarea rows="4" placeholder="Your answer here..." data-qidx="${idx}" data-type="${q.type}" class="text-answer"></textarea>`;
+        } else if (q.type === 'practical') {
+          html += `<textarea class="code-editor" rows="6" placeholder="Write HTML code here..." data-qidx="${idx}" data-type="practical"></textarea>`;
+        }
+
+        html += `</div>`;
+      });
+      questionsArea.innerHTML = html;
+      attachQuestionListeners();
+      updateProgress();
+    }
+
+    function escapeHtml(text) {
+      return String(text).replace(/[&<>"]/g, function(m) {
+        if (m === '&') return '&amp;';
+        if (m === '<') return '&lt;';
+        if (m === '>') return '&gt;';
+        if (m === '"') return '&quot;';
+        return m;
+      });
+    }
+
+    function attachQuestionListeners() {
+      document.querySelectorAll('.mcq-radio').forEach(radio => {
+        radio.addEventListener('change', (e) => {
+          const qidx = parseInt(e.target.dataset.qidx);
+          const optidx = parseInt(e.target.dataset.optidx);
+          answers[qidx] = { value: optidx, text: '' };
+          updateProgress();
+        });
+      });
+      document.querySelectorAll('input[data-tf]').forEach(radio => {
+        radio.addEventListener('change', (e) => {
+          const qidx = parseInt(e.target.dataset.qidx);
+          const tfVal = parseInt(e.target.dataset.tf);
+          answers[qidx] = { value: tfVal, text: '' };
+          updateProgress();
+        });
+      });
+      document.querySelectorAll('textarea[data-qidx]').forEach(ta => {
+        ta.addEventListener('input', (e) => {
+          const qidx = parseInt(e.target.dataset.qidx);
+          answers[qidx] = { value: null, text: e.target.value };
+          updateProgress();
+        });
+      });
+    }
+
+    function updateProgress() {
+      let answered = 0;
+      answers.forEach(ans => {
+        if (ans.value !== null || (ans.text && ans.text.trim() !== '')) answered++;
+      });
+      progressStatus.innerText = `${answered} / 130 answered`;
+    }
+
+    // ---------- AUTO GRADING ----------
+    function autoGrade() {
+      let score = 0;
+      let totalObjective = 0;
+      questions.forEach((q, idx) => {
+        if (q.type === 'mcq' || q.type === 'tf') {
+          totalObjective++;
+          if (answers[idx].value !== null && answers[idx].value === q.correct) {
+            score++;
+          }
+        }
+      });
+      return { score, totalObjective };
+    }
+
+    // ---------- TIMER ----------
+    function startTimer() {
+      if (timerInterval) clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        if (timeLeft <= 0) {
+          clearInterval(timerInterval);
+          timerDisplay.innerText = '00:00:00';
+          forceSubmit('Time expired');
+          return;
+        }
+        timeLeft--;
+        const hrs = Math.floor(timeLeft / 3600);
+        const mins = Math.floor((timeLeft % 3600) / 60);
+        const secs = timeLeft % 60;
+        timerDisplay.innerText = `${String(hrs).padStart(2,'0')}:${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
+        if (timeLeft < 300) timerDisplay.classList.add('warning');
+        else timerDisplay.classList.remove('warning');
+      }, 1000);
+    }
+
+    // ---------- ANTI-CHEAT ----------
+    function startAntiCheat() {
+      if (document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      }
+      document.addEventListener('visibilitychange', () => {
+        if (!examActive) return;
+        if (document.hidden) {
+          tabSwitchCount++;
+          antiCheatLog.classList.remove('hidden');
+          antiCheatLog.innerText = `⚠️ Tab switch detected! (${tabSwitchCount})`;
+          showOverlay('Tab switching is not allowed. Please stay on this tab.');
+        }
+      });
+      document.addEventListener('fullscreenchange', () => {
+        if (!examActive) return;
+        if (!document.fullscreenElement) {
+          fullscreenExitCount++;
+          showOverlay('Fullscreen mode exited. Please return to fullscreen.');
+        }
+      });
+      document.addEventListener('contextmenu', e => e.preventDefault());
+      document.addEventListener('keydown', e => {
+        if (e.ctrlKey && (e.key === 'c' || e.key === 'v' || e.key === 'u' || e.key === 's' || e.key === 'p')) {
+          if (examActive) e.preventDefault();
+        }
+      });
+    }
+
+    function showOverlay(msg) {
+      overlayMessage.innerText = msg || 'Please return to full screen and stay on this tab.';
+      overlay.classList.remove('hidden');
+    }
+
+    function hideOverlay() {
+      overlay.classList.add('hidden');
+      if (examActive && !document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      }
+    }
+
+    returnBtn.addEventListener('click', () => {
+      hideOverlay();
+      if (document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      }
+    });
+
+    // ---------- SUBMIT VIA EMAILJS ----------
+    async function sendEmailAndSubmit(reason = 'manual') {
+      if (!examActive) return;
+      examActive = false;
+      clearInterval(timerInterval);
+
+      const { score, totalObjective } = autoGrade();
+      const timestamp = new Date().toLocaleString();
+
+      // Build answer details (truncate each long answer to keep email readable)
+      let answerDetails = '';
+      questions.forEach((q, idx) => {
+        const ans = answers[idx];
+        let ansText = '';
+        if (q.type === 'mcq' && ans.value !== null) {
+          ansText = q.options[ans.value];
+        } else if (q.type === 'tf' && ans.value !== null) {
+          ansText = ans.value === 0 ? 'True' : 'False';
+        } else if (ans.text && ans.text.trim()) {
+          ansText = ans.text.length > 400 ? ans.text.substring(0, 400) + '...[truncated]' : ans.text;
+        } else {
+          ansText = '[no answer]';
+        }
+        answerDetails += `Q${idx+1} [${q.type.toUpperCase()}]: ${q.text}\n   → ${ansText}\n\n`;
+      });
+
+      // EmailJS template parameters
+      const templateParams = {
+        student_name: currentUser.fullname,
+        course: currentUser.course,
+        admission_number: currentUser.admission,
+        timestamp: timestamp,
+        reason: reason,
+        score: score,
+        total_objective: totalObjective,
+        tab_switches: tabSwitchCount,
+        fullscreen_exits: fullscreenExitCount,
+        answer_details: answerDetails,
+        to_email: "your-email@example.com"  // ← replace with YOUR email
+      };
+
+      submitExamBtn.disabled = true;
+      submitExamBtn.innerText = '⏳ Sending...';
+
+      try {
+        await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
+        alert(`✅ Exam submitted successfully!\nAuto-graded score: ${score}/${totalObjective}\nYour answers have been emailed.`);
+      } catch (err) {
+        console.error('EmailJS error:', err);
+        alert(`⚠️ Email could not be sent (${err.text || err.message || 'unknown error'}).\nYour score: ${score}/${totalObjective}.\nPlease contact the examiner.`);
+      }
+
+      // Reset UI
+      examContainer.classList.add('hidden');
+      loginContainer.classList.remove('hidden');
+      overlay.classList.add('hidden');
+      if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
+      submitExamBtn.disabled = false;
+      submitExamBtn.innerText = '📨 Submit & Email';
+      examActive = false;
+    }
+
+    function forceSubmit(reason) {
+      if (examActive) sendEmailAndSubmit(reason);
+    }
+
+    submitExamBtn.addEventListener('click', () => {
+      const answeredCount = answers.filter(a => a.value !== null || (a.text && a.text.trim())).length;
+      if (confirm(`Submit exam now? You have answered ${answeredCount} / 130 questions.`)) {
+        sendEmailAndSubmit('manual submit');
+      }
+    });
+
+    // ---------- LOGIN ----------
+    loginBtn.addEventListener('click', () => {
+      const fullname = fullnameInput.value.trim();
+      const course = courseInput.value.trim();
+      const admission = admissionInput.value.trim();
+      if (!fullname || !course || !admission) {
+        alert('Please fill all fields.');
+        return;
+      }
+      currentUser = { fullname, course, admission };
+      loginContainer.classList.add('hidden');
+      examContainer.classList.remove('hidden');
+      studentInfo.innerText = `👤 ${fullname} · ${course} · ${admission}`;
+
+      answers = new Array(questions.length).fill(null).map(() => ({ value: null, text: '' }));
+      renderQuestions();
+
+      timeLeft = 7200;
+      timerDisplay.innerText = '02:00:00';
+      timerDisplay.classList.remove('warning');
+      if (timerInterval) clearInterval(timerInterval);
+      startTimer();
+
+      examActive = true;
+      tabSwitchCount = 0;
+      fullscreenExitCount = 0;
+      antiCheatLog.classList.add('hidden');
+      startAntiCheat();
+
+      if (document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      }
+    });
+
+    document.querySelectorAll('input').forEach(inp => {
+      inp.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') e.preventDefault();
+      });
+    });
+
+    window.addEventListener('load', () => {
+      loginContainer.classList.remove('hidden');
+      examContainer.classList.add('hidden');
+      overlay.classList.add('hidden');
+    });
+
+    window.addEventListener('beforeunload', (e) => {
+      if (examActive) {
+        e.preventDefault();
+        e.returnValue = 'Exam in progress. Are you sure?';
+      }
+    });
+
+  })();
+</script>
